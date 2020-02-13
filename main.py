@@ -36,13 +36,16 @@ def norm_angle_rate(angle_rate, horiz_scale=1):  # return range is [-1, 1]
 
 in_neurons = list()
 for i in range(env.observation_space.shape[0]):
-    in_neurons.extend([Neuron(), Neuron()])
+    in_neurons.extend([Neuron(is_input=True), Neuron(is_input=True)])
 
 network = Network(in_neurons=in_neurons, out_neurons=[Neuron(is_output=True, name="Left"), Neuron(is_output=True, name="Right")])
 
 
 for in_neuron in network.in_neurons:
     print(in_neuron.outs)
+
+
+network.draw_network()
 
 
 for _ in range(1000):
