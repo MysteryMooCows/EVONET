@@ -1,9 +1,11 @@
 import numpy
 
 class Neuron:
-    def __init__(self, activation=0, outs=None, is_output=False, name=None):
+    def __init__(self, activation=0, outs=list(), is_output=False, name=None):
         self.activation = activation
         self.outs = outs
+        self.is_output = is_output
+        self.name = name
 
     def project_to(self, target_neuron, distance=1):
         self.outs.append((target_neuron, distance))

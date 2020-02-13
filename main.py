@@ -34,10 +34,15 @@ def norm_angle_rate(angle_rate, horiz_scale=1):  # return range is [-1, 1]
     return numpy.tanh(angle_rate * horiz_scale)
 
 
-network = Network()
-network.out_neurons = [Neuron(is_output=True, name="Left"), Neuron(is_output=True, name="Right")]
+in_neurons = list()
 for i in range(env.observation_space.shape[0]):
-    network.in_neurons.extend([Neuron(), Neuron()])
+    in_neurons.extend([Neuron(), Neuron()])
+
+network = Network(in_neurons=in_neurons, out_neurons=[Neuron(is_output=True, name="Left"), Neuron(is_output=True, name="Right")])
+
+
+for in_neuron in network.in_neurons:
+    print(in_neuron.outs)
 
 
 for _ in range(1000):
