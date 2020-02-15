@@ -4,6 +4,7 @@ from graphviz import Digraph
 import os
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 from mscatter import mscatter
+import numpy as np
 
 
 class Network:
@@ -57,7 +58,7 @@ class Network:
             ydata.append(neuron.pos[1])
             zdata.append(neuron.pos[2])
             if neuron.is_input:
-                mdata.append('X')
+                mdata.append('x')
             elif neuron.is_output:
                 mdata.append('o')
             adata.append(neuron.activation)
@@ -75,6 +76,17 @@ class Network:
         mdata.append('^')
 
         mscatter(xdata, ydata, zdata, m=mdata, c=adata, cmap='plasma')
+
+        for neuron in neurons:
+            for projected in neuron.outs:
+                n1 = neuron.pos[0]
+                n2 = neuron.pos[1]
+                n3 = neuron.pos[2]
+                p1 = projected.pos[0]
+                p2 = projected.pos[1]
+                p3 = projected.pos[2]
+                ax.plot([n1, p1], [n2, p2], [n3, p3], color='Grey')
+
         plt.show()
 
 
