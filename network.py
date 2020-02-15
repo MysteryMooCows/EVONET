@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from graphviz import Digraph
 import os
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
+from mscatter import mscatter
+
 
 class Network:
     def __init__(self, in_neurons=list(), out_neurons=list()):
@@ -16,14 +18,13 @@ class Network:
 
     def update_inputs(self, activations):
         for i in range(len(activations)):
-            self.in_neurons[i] = activations[i]
-
+            self.in_neurons[i].activation = activations[i]
 
     def print_ins(self):
         out_str = "Inputs: "
 
         for neuron in self.in_neurons:
-            out_str += str(neuron) + " "
+            out_str += str(neuron.activation) + " "
 
         print(out_str)
 
@@ -45,23 +46,35 @@ class Network:
         xdata = []
         ydata = []
         zdata = []
-        cdata = []
+        mdata = []
+        adata = []
 
         neurons = self.in_neurons.copy()
         neurons.extend(self.out_neurons)
-
-        print(len(neurons))
 
         for neuron in neurons:
             xdata.append(neuron.pos[0])
             ydata.append(neuron.pos[1])
             zdata.append(neuron.pos[2])
             if neuron.is_input:
-                cdata.append('blue')
+                mdata.append('X')
             elif neuron.is_output:
-                cdata.append('red')
+                mdata.append('o')
+            adata.append(neuron.activation)
 
-        ax.scatter3D(xdata, ydata, zdata, color=cdata)
+        xdata.append(0)   # Dummy 1 neuron
+        ydata.append(0)
+        zdata.append(0)
+        adata.append(1)
+        mdata.append('^')
+
+        xdata.append(0)   # Dummy 0 neuron
+        ydata.append(0)
+        zdata.append(0)
+        adata.append(0)
+        mdata.append('^')
+
+        mscatter(xdata, ydata, zdata, m=mdata, c=adata, cmap='plasma')
         plt.show()
 
 

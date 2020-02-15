@@ -67,11 +67,13 @@ for _ in range(1000):
 
     network.update_inputs(neurized_input_activations)
 
+
     if done:
         observation = env.reset()
         break
     else:
         print(normed_inputs)
         network.print_ins()
+        network.draw_network()
 
 env.close()
